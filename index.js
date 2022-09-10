@@ -155,6 +155,17 @@ app.post("/submit",(req,res)=>{
     })
 })
 
+app.get("/data",(req,res)=>{
+    formModel.find()
+    .then((data)=>{
+        res.send(data);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send({message:"Some problem in getting data"});
+    })
+})
+
 app.listen(PORT,()=>{
     logger.warn(`Server started at ${PORT}`);
 })
