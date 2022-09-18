@@ -142,6 +142,18 @@ app.get("/courses",(req,res)=>{
     })
 })
 
+app.get("/course/sub/:id",(req, res)=>{
+    let id = req.params.id;
+    courseModel.findOne({_id:id})
+    .then((course)=>{
+        res.send(course);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send({message:"Some error in getting course"});
+    })
+})
+
 app.post("/submit",(req,res)=>{
     let data = req.body;
     let formOBJ = new formModel(data);
