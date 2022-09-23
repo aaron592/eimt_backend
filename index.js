@@ -103,7 +103,7 @@ app.post("/admin/login",(req,res)=>{
                if(result!=true){
                    res.send({message:"Email found but password is incorrect"});
                }else{
-                   jwt.sign(data,"authdemo",(err,token)=>{
+                   jwt.sign(data,"admin",(err,token)=>{
                        res.send({success:true,token:token,name:user.name,user_id:user._id})
                    })
                }
@@ -118,7 +118,7 @@ app.post("/admin/login",(req,res)=>{
     })
 })
 
-app.post("/course",(req,res)=>{
+app.post("/course",verifyToken,(req,res)=>{
     let data = req.body;
     let courseOBJ = new courseModel(data);
     courseOBJ.save()
@@ -177,6 +177,21 @@ app.get("/data",(req,res)=>{
         res.send({message:"Some problem in getting data"});
     })
 })
+
+function verifyToken(req,res,next){
+    if(req.headers.authorization!==undefined){
+        let token = req.headers.authorization.split(" ")[1];
+        jwt.verify(token,"admin",(err,userCreds)=>{
+            if(err==null){
+                next();
+            }else{
+                res.status(401).send({message:"Incorrect token"})
+            }
+        })
+    }else{
+        res.status(403).send({message:"Invalid token"})
+    }
+ }
 
 app.listen(PORT,()=>{
     logger.warn(`Server started at ${PORT}`);
