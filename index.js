@@ -118,7 +118,7 @@ app.post("/admin/login",(req,res)=>{
     })
 })
 
-app.post("/course",verifyToken,(req,res)=>{
+app.post("/course",(req,res)=>{
     let data = req.body;
     let courseOBJ = new courseModel(data);
     courseOBJ.save()
@@ -167,7 +167,7 @@ app.post("/submit",(req,res)=>{
     })
 })
 
-app.get("/data",(req,res)=>{
+app.get("/data",verifyToken,(req,res)=>{
     formModel.find()
     .then((data)=>{
         res.send(data);
