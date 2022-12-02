@@ -138,7 +138,7 @@ app.get("/courses",(req,res)=>{
     })
     .catch((err)=>{
         console.log(err);
-        res.send({message:"Some problem in getting courses"});
+        res.send({message:"Some problem in getting courss"});
     })
 })
 
