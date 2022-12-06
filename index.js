@@ -61,6 +61,18 @@ const formSchema = new mongoose.Schema({
     msg:{type:String,required:true}
 })
 
+const registerSchema = new mongoose.Schema({
+    fullname:{type:String,required:true},
+    email:{type:String,required:true},
+    phone:{type:String,required:true},
+    address:{type:String,required:true},
+    education:{type:String,required:true},
+    gender:{type:String,required:true},
+    course:{type:String,required:true},
+    other:{type:String,required:true},
+    query:{type:String,required:true}
+})
+
 //course model 
 
 const courseModel = new mongoose.model("courses",courseSchema);
@@ -72,6 +84,10 @@ const formModel = new mongoose.model("forms",formSchema);
 // admin model
 
 const adminModel = new mongoose.model("admins",adminSchema);
+
+// register model 
+
+const registerModel =  new mongoose.model("application",registerSchema);
 
 app.post('/admin',(req,res)=>{
     let data = req.body;
@@ -138,7 +154,7 @@ app.get("/courses",(req,res)=>{
     })
     .catch((err)=>{
         console.log(err);
-        res.send({message:"Some problem in getting courss"});
+        res.send({message:"Some problem in getting course"});
     })
 })
 
@@ -164,6 +180,19 @@ app.post("/submit",(req,res)=>{
     .catch((err)=>{
         console.log(err);
         res.send({message:"Some error in submitting form"})
+    })
+})
+
+app.post("/register",(req,res)=>{
+    let data = req.body;
+    let formOBJ = new registerModel(data);
+    formOBJ.save()
+    .then(()=>{
+        res.send({message:"Registered successfully"});
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send({message:"Some error in submitting form"});
     })
 })
 
