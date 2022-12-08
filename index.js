@@ -188,11 +188,11 @@ app.post("/register",(req,res)=>{
     let formOBJ = new registerModel(data);
     formOBJ.save()
     .then(()=>{
-        res.send({message:"Registered successfully"});
+        res.send({success:true,message:"Registered successfully"});
     })
     .catch((err)=>{
         console.log(err);
-        res.send({message:"Some error in submitting form"});
+        res.send({success:false,message:"Some error in submitting form"});
     })
 })
 
