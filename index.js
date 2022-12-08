@@ -175,11 +175,11 @@ app.post("/submit",(req,res)=>{
     let formOBJ = new formModel(data);
     formOBJ.save()
     .then(()=>{
-        res.send({message:"Submitted Successfully"});
+        res.send({success:true,message:"Submitted Successfully"});
     })
     .catch((err)=>{
         console.log(err);
-        res.send({message:"Some error in submitting form"})
+        res.send({success:false,error:"Some error !!",message:"Please refresh your page and try again!!",text:"* All fields are mandatory"})
     })
 })
 
@@ -192,7 +192,18 @@ app.post("/register",(req,res)=>{
     })
     .catch((err)=>{
         console.log(err);
-        res.send({success:false,message:"Some error in submitting form"});
+        res.send({success:false,error:"Some error !!",message:"Please refresh your page and try again!!",text:"* All fields are mandatory"});
+    })
+})
+
+app.get("/appdata",verifyToken,(req,res)=>{
+    registerModel.find()
+    .then((data)=>{
+        res.send(data);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send({message:"Some problem in getting data"});
     })
 })
 
